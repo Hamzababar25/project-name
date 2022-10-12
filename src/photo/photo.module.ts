@@ -15,9 +15,6 @@ import { PhotoService } from "./photo.service";
 
 
 @Module({
-    imports: [MongooseModule.forRoot('mongodb+srv://hamza025:mynameisjeff786@cluster0.ns2rve7.mongodb.net/test'),
-    MongooseModule.forFeature([{ name: Photo.name, schema: PhotoSchema },{ name: Member.name, schema: MemberSchema },{ name: Location.name, schema: LocationSchema },{ name: Album.name, schema: AlbumSchema }])],
-    controllers: [PhotoController,MemberController,LocationController,AlbumController],
-    providers: [PhotoService,MemberService,AlbumService,LocationService],
+    imports: []
   })
   export class PhotoModule {}
