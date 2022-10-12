@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from 'mongoose';
+import { Photo, PhotoDocument } from "src/photo/photo.schema";
 import { CreateCommentDto } from "./comment.controller";
 import { Comment, CommentDocument } from "./comment.schema";
 
@@ -9,7 +10,8 @@ import { Comment, CommentDocument } from "./comment.schema";
 @Injectable()
 export class CommentService {
   constructor(
-    @InjectModel(Comment.name) private readonly commentModel: Model<CommentDocument>) {}
+    @InjectModel(Comment.name) private readonly commentModel: Model<CommentDocument>,
+    @InjectModel(Photo.name) private readonly photoModel: Model<PhotoDocument>) {}
 
     async createcomment(createcommentDto:CreateCommentDto): Promise<Comment> {
         const createdcomment = await this.commentModel.create(createcommentDto);
@@ -19,7 +21,7 @@ export class CommentService {
         return this.commentModel.find().exec();
       }
       async findOne(id: string): Promise<Comment> {
-        return this.commentModel.findOne({ _id: id }).exec();
+        return this.commentModel.findOne({ _id: id }).populate('photoid', '', this.photoModel).exec();
       }
       async delete(id: string) {
         const deletedmember = await this.commentModel
